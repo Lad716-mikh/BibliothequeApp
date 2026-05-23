@@ -1,12 +1,15 @@
 package com.example.bibliothequeapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 
 public class LivreAdapter extends RecyclerView.Adapter<LivreAdapter.LivreViewHolder> {
@@ -50,6 +53,13 @@ public class LivreAdapter extends RecyclerView.Adapter<LivreAdapter.LivreViewHol
                     )
             );
         }
+
+        // Clic sur un livre → ouvre le détail
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), DetailActivity.class);
+            intent.putExtra("livre", livre);
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override
