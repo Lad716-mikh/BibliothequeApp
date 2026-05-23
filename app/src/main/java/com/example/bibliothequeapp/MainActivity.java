@@ -2,13 +2,12 @@ package com.example.bibliothequeapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-
+import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_ADD_EDIT_LIVRE && resultCode == RESULT_OK && data != null) {
@@ -70,9 +69,11 @@ public class MainActivity extends AppCompatActivity {
                 int nouvelId = listeLivres.size() + 1;
                 livre.setId(nouvelId);
                 listeLivres.add(livre);
+                Toast.makeText(this, "✅ Livre ajouté avec succès !", Toast.LENGTH_SHORT).show();
 
             } else if (AddEditActivity.MODE_EDIT.equals(mode) && position >= 0) {
                 listeLivres.set(position, livre);
+                Toast.makeText(this, "✏️ Livre modifié avec succès !", Toast.LENGTH_SHORT).show();
             }
 
             livreAdapter.notifyDataSetChanged();
