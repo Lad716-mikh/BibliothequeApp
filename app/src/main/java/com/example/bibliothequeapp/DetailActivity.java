@@ -32,13 +32,25 @@ public class DetailActivity extends AppCompatActivity {
 
         if (livre != null) {
             tvTitre.setText(livre.getTitre());
-            tvAuteur.setText("Auteur : " + livre.getAuteur());
-            tvIsbn.setText("ISBN : " + livre.getIsbn());
+            tvAuteur.setText(livre.getAuteur());
+            tvIsbn.setText(livre.getIsbn());
 
             if (livre.isDisponible()) {
-                tvDisponibilite.setText("Disponible");
+                tvDisponibilite.setText("✓ Disponible");
+                tvDisponibilite.setBackgroundResource(R.drawable.badge_background);
+                tvDisponibilite.setBackgroundTintList(
+                        android.content.res.ColorStateList.valueOf(
+                                android.graphics.Color.parseColor("#2E7D32")
+                        )
+                );
             } else {
-                tvDisponibilite.setText("Indisponible");
+                tvDisponibilite.setText("✗ Indisponible");
+                tvDisponibilite.setBackgroundResource(R.drawable.badge_background);
+                tvDisponibilite.setBackgroundTintList(
+                        android.content.res.ColorStateList.valueOf(
+                                android.graphics.Color.parseColor("#C62828")
+                        )
+                );
             }
         }
     }
