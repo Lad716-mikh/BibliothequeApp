@@ -2,6 +2,8 @@ package com.example.bibliothequeapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewLivres;
     private FloatingActionButton fabAjouterLivre;
+    private TextView tvListeVide;
 
     private LivreAdapter livreAdapter;
     private List<Livre> listeLivres;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerViewLivres = findViewById(R.id.recyclerViewLivres);
         fabAjouterLivre = findViewById(R.id.fabAjouterLivre);
+        tvListeVide = findViewById(R.id.tvListeVide);
 
         database = AppDatabase.getInstance(this);
         executorService = Executors.newSingleThreadExecutor();
@@ -94,6 +98,14 @@ public class MainActivity extends AppCompatActivity {
                 listeLivres.clear();
                 listeLivres.addAll(livresDepuisBase);
                 livreAdapter.notifyDataSetChanged();
+
+                if (listeLivres.isEmpty()) {
+                    tvListeVide.setVisibility(View.VISIBLE);
+                    recyclerViewLivres.setVisibility(View.GONE);
+                } else {
+                    tvListeVide.setVisibility(View.GONE);
+                    recyclerViewLivres.setVisibility(View.VISIBLE);
+                }
             });
         });
     }
