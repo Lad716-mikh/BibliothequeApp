@@ -5,17 +5,16 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import androidx.appcompat.widget.SwitchCompat;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 public class AddEditActivity extends AppCompatActivity {
 
     public static final String EXTRA_MODE = "MODE";
     public static final String EXTRA_LIVRE = "LIVRE";
-    public static final String EXTRA_POSITION = "POSITION";
 
     public static final String MODE_ADD = "ADD";
     public static final String MODE_EDIT = "EDIT";
@@ -29,20 +28,17 @@ public class AddEditActivity extends AppCompatActivity {
 
     private String mode;
     private Livre livreAModifier;
-    private int positionLivre = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit);
 
-        // Active le bouton retour
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        // Liaison Java avec les vues XML
         tvTitreFormulaire = findViewById(R.id.tvTitreFormulaire);
         etTitre = findViewById(R.id.etTitre);
         etAuteur = findViewById(R.id.etAuteur);
@@ -50,15 +46,12 @@ public class AddEditActivity extends AppCompatActivity {
         switchDisponible = findViewById(R.id.switchDisponible);
         btnEnregistrer = findViewById(R.id.btnEnregistrer);
 
-        // Récupération du mode envoyé par MainActivity
         Intent intent = getIntent();
         mode = intent.getStringExtra(EXTRA_MODE);
 
         if (MODE_EDIT.equals(mode)) {
             tvTitreFormulaire.setText("Modifier le livre");
-
             livreAModifier = (Livre) intent.getSerializableExtra(EXTRA_LIVRE);
-            positionLivre = intent.getIntExtra(EXTRA_POSITION, -1);
 
             if (livreAModifier != null) {
                 etTitre.setText(livreAModifier.getTitre());
@@ -66,7 +59,6 @@ public class AddEditActivity extends AppCompatActivity {
                 etIsbn.setText(livreAModifier.getIsbn());
                 switchDisponible.setChecked(livreAModifier.isDisponible());
             }
-
         } else {
             mode = MODE_ADD;
             tvTitreFormulaire.setText("Ajouter un livre");
@@ -88,13 +80,7 @@ public class AddEditActivity extends AppCompatActivity {
         Livre livre;
 
         if (MODE_EDIT.equals(mode) && livreAModifier != null) {
-            livre = new Livre(
-                    livreAModifier.getId(),
-                    titre,
-                    auteur,
-                    isbn,
-                    disponible
-            );
+            livre = new Livre(livreAModifier.getId(), titre, auteur, isbn, disponible);
         } else {
             livre = new Livre(0, titre, auteur, isbn, disponible);
         }
@@ -102,7 +88,6 @@ public class AddEditActivity extends AppCompatActivity {
         Intent resultIntent = new Intent();
         resultIntent.putExtra(EXTRA_MODE, mode);
         resultIntent.putExtra(EXTRA_LIVRE, livre);
-        resultIntent.putExtra(EXTRA_POSITION, positionLivre);
 
         setResult(RESULT_OK, resultIntent);
         finish();
